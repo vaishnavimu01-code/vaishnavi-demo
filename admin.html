@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        nav {
+            background: #444;
+            color: #fff;
+            padding: 10px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+        nav ul li {
+            margin: 0 5px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .container {
+            padding: 20px;
+        }
+        .section {
+            background: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .section h2 {
+            margin: 0 0 10px 0;
+        }
+        button {
+            padding: 10px 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin: 10px 0 5px;
+        }
+        input, select {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            position: relative;
+        }
+        .price-box {
+            position: absolute;
+            top: 20px;
+            right: -350px;
+            width: 300px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+        }
+        .price-box h3 {
+            margin: 0 0 10px 0;
+        }
+        .price-box p {
+            margin: 5px 0;
+        }
+		.logo1{
+		max-width: 80px;
+  border-radius: 90px;
+  object-fit: cover;
+  overflow: hidden;
+}
+  
+    </style>
+</head>
+<body>
+    <header>
+	<a href="#home"><img class="logo1"src="C:\xampp\htdocs\php\WhatsApp Image 2025-01-18 at 10.51.44 AM.jpeg" alt="logo" /></a>
+        <h1>Admin Dashboard</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#dashboard">Dashboard</a></li>			           
+            <li><a href="#farmer-management">Farmer Management</a></li>
+            <li><a href="#milk-collection-management">Milk Collection</a></li>
+            <li><a href="#order-management">Order Management</a></li>
+            <li><a href="#reports">Reports</a></li>
+            <li><a href="#settings">Settings</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div class="section" id="dashboard">
+            <h2>Dashboard</h2>
+            <p>Total Milk Collection: <span id="total-milk"></span></p>
+            <p>Total Orders: <span id="total-orders"></span></p>
+            <p>Farmer Registration: <span id="total-farmers"></span></p>
+        </div>
+        <div class="section" id="farmer-management">
+            <h2>Farmer Management</h2>
+			<button>List of Farmers</button>
+            <button>Add Farmer</button>
+			<button onclick="openDeleteFarmerPage()">Delete Farmer</button>
+			<button>Edit Farmers</button>
+        </div>
+        <div class="section" id="milk-collection-management">
+            <h2>Milk Collection Management</h2>
+			<button>Milk Collection Data</button>
+            <button>Add Milk Collection data</button>
+			<button onclick="deleteMilkCollection()">Delete Milk Collection data</button>
+			<button>Edit Milk Collection Data</button>
+        </div>
+        <div class="section" id="order-management">
+            <h2>Order Management</h2>
+            <button class="btn nav__btn"><a href="E:/PROJECT/bookmilk.html"style="text-decoration: none; color: white;">Add Order</a></button>
+            <button class="btn nav__btn">Delete order</button>
+			<button>Edit Orders</button>
+		</div>
+        <div class="section" id="reports">
+            <h2>Reports</h2>
+            <button onclick="generateReport()">Generate Report</button>
+        </div>
+        
+    </div>
+    <div id="add-farmer-page" style="display:none;">
+        <div class="form-container">
+            <h2>Add Farmer</h2>
+            <form id="add-farmer-form" onsubmit="submitFarmerForm(event)">
+                <label for="farmer-name">Name:</label>
+                <input type="text" id="farmer-name" name="farmer-name" required>
+
+                <label for="contact-number">Contact Number:</label>
+                <input type="text" id="contact-number" name="contact-number" required>
+
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+
+                <label for="milk-type">Milk Type:</label>
+                <select id="milk-type" name="milk-type" required>
+                    <option value="">Select Milk Type</option>
+                    <option value="cow">Cow</option>
+                    <option value="buffalo">Buffalo</option>
+                    <option value="goat">Goat</option>
+                </select>                
+                <button type="submit">Submit</button>
+                <button type="button" onclick="closeAddFarmerPage()">Cancel</button>
+            </form>
+        </div>
+    </div>
+	<div id="edit-farmer-page" style="display:none;">
+        <div class="form-container">
+            <h2>Edit Farmer</h2>
+            <form id="edit-farmer-form" onsubmit="submitFarmerForm(event)">
+                <label for="farmer-name">Name:</label>
+                <input type="text" id="farmer-name" name="farmer-name" required>
+
+                <label for="contact-number">Contact Number:</label>
+                <input type="text" id="contact-number" name="contact-number" required>
+
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+
+                <label for="milk-type">Milk Type:</label>
+                <select id="milk-type" name="milk-type" required>
+                    <option value="">Select Milk Type</option>
+                    <option value="cow">Cow</option>
+                    <option value="buffalo">Buffalo</option>
+                    <option value="goat">Goat</option>
+                </select>
+                <button type="submit">Submit</button>
+                <button type="button" onclick="closeDeleteFarmerPage()">Cancel</button>
+            </form>
+        </div>
+    </div>
+    <div id="add-order-page" style="display:none;">
+        <div class="form-container">
+            <h2>Add Order</h2>
+            <form id="add-order-form" onsubmit="submitOrderForm(event)">
+                <label for="customer-name">Customer Name:</label>
+                <input type="text" id="customer-name" name="customer-name" required>
+
+                <label for="order-date">Order Date:</label>
+                <input type="date" id="order-date" name="order-date" required>
+
+                <label for="milktype">Milk type:</label>
+                <select id="milktype" name="milktype" onchange="calculateAmount()" required>
+                    <option value="">Select Milk Type</option>
+                    <option value="cow">Cow Milk</option>
+                    <option value="buffalo">Buffalo Milk</option>
+                    <option value="goat">Goat Milk</option>
+                </select>
+
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" oninput="calculateAmount()" required>
+
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" readonly>
+
+                <label for="status">Status:</label>
+                <select id="status" name="status" required>
+                    <option value="">Select Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Successful">Successful</option>
+                </select>
+
+                <button type="submit">Submit</button>
+                <button type="button" onclick="closeAddOrderPage()">Cancel</button>
+            </form>
+            <div class="price-box">
+                <h3>Milk Prices</h3>
+                <p>Cow Milk: 50 Rs/L</p>
+                <p>Buffalo Milk: 80 Rs/L</p>
+                <p>Goat Milk: 100 Rs/L</p>
+            </div>
+        </div>
+    </div>
+    <div id="edit-order-page" style="display:none;">
+        <div class="form-container">
+            <h2>Add Order</h2>
+            <form id="edit-order-form" onsubmit="submitOrderForm(event)">
+                <label for="customer-name">Customer Name:</label>
+                <input type="text" id="customer-name" name="customer-name" required>
+
+                <label for="order-date">Order Date:</label>
+                <input type="date" id="order-date" name="order-date" required>
+
+                <label for="milktype">Milk type:</label>
+                <select id="milktype" name="milktype" onchange="calculateAmount()" required>
+                    <option value="">Select Milk Type</option>
+                    <option value="cow">Cow Milk</option>
+                    <option value="buffalo">Buffalo Milk</option>
+                    <option value="goat">Goat Milk</option>
+                </select>
+
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" oninput="calculateAmount()" required>
+
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" readonly>
+
+                <label for="status">Status:</label>
+                <select id="status" name="status" required>
+                    <option value="">Select Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Successful">Successful</option>
+                </select>
+
+                <button type="submit">Submit</button>
+                <button type="button" onclick="closeEditOrderPage()">Cancel</button>
+            </form>
+            <div class="price-box">
+                <h3>Milk Prices</h3>
+                <p>Cow Milk: 50 Rs/L</p>
+                <p>Buffalo Milk: 80 Rs/L</p>
+                <p>Goat Milk: 100 Rs/L</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let totalFarmers = 0;
+        let totalOrders = 0;
+
+        function openAddFarmerPage() {
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('add-farmer-page').style.display = 'block';
+        }
+
+        function closeAddFarmerPage() {
+            document.querySelector('.container').style.display = 'block';
+            document.getElementById('add-farmer-page').style.display = 'none';
+        }
+		
+		function openEditFarmerPage() {
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('edit-farmer-page').style.display = 'block';
+        }
+
+        function closeEditFarmerPage() {
+            document.querySelector('.container').style.display = 'block';
+            document.getElementById('edit-farmer-page').style.display = 'none';
+        }
+
+        function submitFarmerForm(event) {
+            event.preventDefault();
+            const farmerName = document.getElementById('farmer-name').value;
+            const contactNumber = document.getElementById('contact-number').value;
+            const address = document.getElementById('address').value;
+            const milkType = document.getElementById('milk-type').value;
+            const status = document.querySelector('input[name="status"]:checked').value;
+
+            totalFarmers++;
+            document.getElementById('total-farmers').textContent = totalFarmers;
+
+            alert(`Farmer Added:
+Name: ${farmerName}
+Contact Number: ${contactNumber}
+Address: ${address}
+Milk Type: ${milkType}
+Status: ${status}`);
+            closeAddFarmerPage();
+        }
+
+        function openAddOrderPage() {
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('add-order-page').style.display = 'block';
+        }
+
+        function closeAddOrderPage() {
+            document.querySelector('.container').style.display = 'block';
+            document.getElementById('add-order-page').style.display = 'none';
+        }
+
+        function openEditOrderPage() {
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('edit-order-page').style.display = 'block';
+        }
+
+        function closeEditOrderPage() {
+            document.querySelector('.container').style.display = 'block';
+            document.getElementById('edit-order-page').style.display = 'none';
+        }
+        function calculateAmount() {
+            const milkType = document.getElementById('milktype').value;
+            const quantity = parseFloat(document.getElementById('quantity').value) || 0;
+            let pricePerLitre = 0;
+
+            if (milkType === 'cow') {
+                pricePerLitre = 50;
+            } else if (milkType === 'buffalo') {
+                pricePerLitre = 80;
+            } else if (milkType === 'goat') {
+                pricePerLitre = 100;
+            }
+
+            const amount = pricePerLitre * quantity;
+            document.getElementById('amount').value = amount.toFixed(2);
+        }
+
+        function submitOrderForm(event) {
+            event.preventDefault();
+            const customerName = document.getElementById('customer-name').value;
+            const orderDate = document.getElementById('order-date').value;
+            const milkType = document.getElementById('milktype').value;
+            const quantity = document.getElementById('quantity').value;
+            const amount = document.getElementById('amount').value;
+            const status = document.getElementById('status').value;
+
+            totalOrders++;
+            document.getElementById('total-orders').textContent = totalOrders;
+
+            alert(`Order Added:
+Customer Name: ${customerName}
+Order Date: ${orderDate}
+Milk Type: ${milkType}
+Quantity: ${quantity}
+Amount: ${amount}
+Status: ${status}`);
+
+            closeAddOrderPage();
+        }
+
+        function generateReport() {
+            alert('Report Generated!');
+        }
+
+        function openSettings() {
+            alert('Settings opened');
+        }
+    </script>
+</body>
+</html>
